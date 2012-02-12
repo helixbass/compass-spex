@@ -1,0 +1,30 @@
+=rel
+    position:           relative
+=abs
+    position:           absolute
+=up
+    text-transform:     uppercase
+=low
+    text-transform:     lowercase
+=block
+    display:            block
+=inline
+    display:            inline
+=hide
+    display:            none
+=center
+    text-align:         center
+=justify
+    text-align:         justify
+=pointer
+    cursor:             pointer
+
+=tk( $family, $fvd, $size, $line_height: no )
+    $style: ""
+    @if char_at( $fvd, 0 ) == i
+        $style: italic
+    @if $line_height != no
+        $size: #{ $size }/#{ $line_height }
+    font:   #{ char_at( $fvd, 1 ) }#{ '00' } #{ $style } $size #{ $family }-#{ $fvd }, $family
+    @if $line_height == no
+        line-height:    inherit
