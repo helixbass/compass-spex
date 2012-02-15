@@ -38,3 +38,11 @@
     font:   #{ char_at( $fvd, 1 ) }#{ '00' } #{ $style } $size #{ $family }-#{ $fvd }, $family
     @if $line_height == no
         line-height:    inherit
+
+=placeholder
+    &::-webkit-input-placeholder
+        @content
+    &:-moz-placeholder
+        @content
+    &.placeholder
+        @content
