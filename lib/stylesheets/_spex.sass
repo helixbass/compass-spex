@@ -28,6 +28,14 @@
     text-align:         justify
 =pointer
     cursor:             pointer
+=default
+    cursor:             default
+=nowrap
+    white-space:        nowrap
+=middle
+    vertical-align:     middle
+=baseline
+    vertical-align:     baseline
 
 =tk( $family, $fvd, $size, $line_height: no )
     $style: ""
@@ -39,6 +47,16 @@
     @if $line_height == no
         line-height:    inherit
 
+=clrfix
+    &:after
+        content:                "\0020"
+        display:                block
+        height:                 0
+        clear:                  both
+        visibility:             hidden
+        font-size:              0
+    +has-layout
+
 =placeholder
     &::-webkit-input-placeholder
         @content
@@ -46,3 +64,10 @@
         @content
     &.placeholder
         @content
+
+// lea verou
+$transparent: rgba( #fff, 0 )
+=seigaiha( $bg: silver, $stroke: white, $height: 50px )
+    background-color:   $bg
+    +background-image( radial-gradient( 100% 150%, circle, $bg 24%, $stroke 25%, $stroke 28%, $bg 29%, $bg 36%, $stroke 36%, $stroke 40%, $transparent 40%, $transparent ), radial-gradient( 0 150%, circle, $bg 24%, $stroke 25%, $stroke 28%, $bg 29%, $bg 36%, $stroke 36%, $stroke 40%, $transparent 40%, $transparent), radial-gradient(50%  100%, circle, $stroke 10%, $bg 11%, $bg 23%, $stroke 24%, $stroke 30%, $bg 31%, $bg 43%, $stroke 44%, $stroke 50%, $bg 51%, $bg 63%, $stroke 64%, $stroke 71%, $transparent 71%, $transparent), radial-gradient( 100% 50%, circle, $stroke 7%, $bg 8%, $bg 15%, $stroke 16%, $stroke 20%, $bg 21%, $bg 29.5%, $stroke 30.5%, $stroke 34.5%, $bg 35.5%, $bg 43.5%, $stroke 44.5%, $stroke 49%, $transparent 50%, $transparent), radial-gradient( 0 50%, circle, $stroke 7%, $bg 8%, $bg 15%, $stroke 16%, $stroke 20%, $bg 21%, $bg 29.5%, $stroke 30.5%, $stroke 34.2%, $bg 35.2%, $bg 43%, $stroke 43.7%, $stroke 49%, $transparent 50%, $transparent))
+    background-size:    $height * 2 $height
