@@ -14,8 +14,6 @@
     display:            block
 =inline
     display:            inline
-=inline-block
-    display:            inline-block
 =hide
     display:            none
 =hidden
@@ -36,16 +34,24 @@
     vertical-align:     middle
 =baseline
     vertical-align:     baseline
+=underline
+    text-decoration:    underline
 
-=tk( $family, $fvd, $size, $line_height: no )
+=tk( $family, $fvd, $size, $line_height: no, $var_family: no )
     $style: ""
     @if char_at( $fvd, 0 ) == i
         $style: italic
     @if $line_height != no
         $size: #{ $size }/#{ $line_height }
-    font:   #{ char_at( $fvd, 1 ) }#{ '00' } #{ $style } $size #{ $family }-#{ $fvd }, $family
+    @if $var_family != no
+        $family: #{ $family }-#{ $fvd }, $family
+    font:   #{ char_at( $fvd, 1 ) }#{ '00' } #{ $style } $size $family
     @if $line_height == no
         line-height:    inherit
+
+=wf-loading
+    .wf-loading &
+        +hidden
 
 =clrfix
     &:after
