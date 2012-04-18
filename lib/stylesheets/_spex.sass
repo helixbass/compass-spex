@@ -36,8 +36,10 @@
     vertical-align:     baseline
 =underline
     text-decoration:    underline
+=small-caps
+    font-variant:       small-caps
 
-=tk( $family, $fvd, $size, $line_height: no, $var_family: no )
+=tk( $family, $fvd, $size, $line_height: no, $var_family: yes )
     $style: ""
     @if char_at( $fvd, 0 ) == i
         $style: italic
