@@ -51,7 +51,7 @@
     margin-bottom:      -99999px
     padding-bottom:     99999px
 
-=tk( $family, $fvd, $size, $line_height: no, $var_family: yes )
+=tk( $family, $fvd, $size, $line_height: no, $var_family: yes, $wf_loading: yes )
     $style: ""
     @if char_at( $fvd, 0 ) == i
         $style: italic
@@ -62,6 +62,8 @@
     font:   #{ char_at( $fvd, 1 ) }#{ '00' } #{ $style } $size $family
     @if $line_height == no
         line-height:    inherit
+    @if $wf_loading != no
+        +wf-loading
 
 =wf-loading
     .wf-loading &
