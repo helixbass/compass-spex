@@ -93,3 +93,80 @@ $transparent: rgba( #fff, 0 )
     background-color:   $bg
     +background-image( radial-gradient( 100% 150%, circle, $bg 24%, $stroke 25%, $stroke 28%, $bg 29%, $bg 36%, $stroke 36%, $stroke 40%, $transparent 40%, $transparent ), radial-gradient( 0 150%, circle, $bg 24%, $stroke 25%, $stroke 28%, $bg 29%, $bg 36%, $stroke 36%, $stroke 40%, $transparent 40%, $transparent), radial-gradient(50%  100%, circle, $stroke 10%, $bg 11%, $bg 23%, $stroke 24%, $stroke 30%, $bg 31%, $bg 43%, $stroke 44%, $stroke 50%, $bg 51%, $bg 63%, $stroke 64%, $stroke 71%, $transparent 71%, $transparent), radial-gradient( 100% 50%, circle, $stroke 7%, $bg 8%, $bg 15%, $stroke 16%, $stroke 20%, $bg 21%, $bg 29.5%, $stroke 30.5%, $stroke 34.5%, $bg 35.5%, $bg 43.5%, $stroke 44.5%, $stroke 49%, $transparent 50%, $transparent), radial-gradient( 0 50%, circle, $stroke 7%, $bg 8%, $bg 15%, $stroke 16%, $stroke 20%, $bg 21%, $bg 29.5%, $stroke 30.5%, $stroke 34.2%, $bg 35.2%, $bg 43%, $stroke 43.7%, $stroke 49%, $transparent 50%, $transparent))
     background-size:    $height * 2 $height
+
+@function sharp( $repeating, $angle, $stops... )
+    $gradient: ()
+
+    @for $i from 1 through length( $stops )
+        $stop: nth( $stops, $i )
+        $dump: ()
+
+        @if $i > 1
+            $previous-stop: nth( $stops, $i - 1 )
+            $dump: append( $dump, nth( $stop, 1 ) nth( $previous-stop, 2 ))
+        @else
+            $dump: append( $dump, nth( $stop, 1 ))
+        $dump: append( $dump, $stop )
+
+        $gradient: join( $gradient, $dump, comma )
+
+    @if $repeating
+        @return repeating-linear-gradient( $angle, $gradient... )
+    @else
+        @return linear-gradient( $angle, $gradient... )
+
+$tr: transparent
+=tartan
+    :background-color hsl( 2, 57%, 40% )
+    $bl: rgba( black, .4 )
+    $bl2: rgba( black, .2 )
+    $bl5: rgba( black, .5 )
+    $wh: rgba( white, .2 )
+    $stops: $tr 50px, $bl 53px, $tr 63px, $bl 66px, $tr 116px, $bl5 166px, $wh 169px, $bl5 179px, $wh 182px, $bl5 232px
+    // +background-image( sharp( 0deg, $tr 50px, $bl 53px, $tr 63px, $bl 66px, $tr 116px, $bl5 166px, $wh 169px, $bl5 179px, $wh 182px, $bl5 232px ), sharp( 270deg, $tr 50px, $bl 53px, $tr 63px, $bl 66px, ))
+    // +background-image( sharp( false, 125deg, $tr 2px, $bl2 3px, $wh 5px ))
+    // +background-size( 5px )
+    +background-image( sharp( true, 180deg, $stops... ), sharp( true, 270deg, $stops... ), sharp( true, 125deg, $tr 2px, $bl2 3px, $tr 7px, $bl2 8px, $tr 12px, $bl2 13px, $tr 20px ))
+    // repeating-linear-gradient(transparent, transparent 50px, rgba(0,0,0,.4) 50px, rgba(0,0,0,.4) 53px, transparent 53px, transparent 63px, rgba(0,0,0,.4) 63px, rgba(0,0,0,.4) 66px, transparent 66px, transparent 116px, rgba(0,0,0,.5) 116px, rgba(0,0,0,.5) 166px, rgba(255,255,255,.2) 166px, rgba(255,255,255,.2) 169px, rgba(0,0,0,.5) 169px, rgba(0,0,0,.5) 179px, rgba(255,255,255,.2) 179px, rgba(255,255,255,.2) 182px, rgba(0,0,0,.5) 182px, rgba(0,0,0,.5) 232px, transparent 232px), repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0,0,0,.4) 50px, rgba(0,0,0,.4) 53px, transparent 53px, transparent 63px, rgba(0,0,0,.4) 63px, rgba(0,0,0,.4) 66px, transparent 66px, transparent 116px, rgba(0,0,0,.5) 116px, rgba(0,0,0,.5) 166px, rgba(255,255,255,.2) 166px, rgba(255,255,255,.2) 169px, rgba(0,0,0,.5) 169px, rgba(0,0,0,.5) 179px, rgba(255,255,255,.2) 179px, rgba(255,255,255,.2) 182px, rgba(0,0,0,.5) 182px, rgba(0,0,0,.5) 232px, transparent 232px), repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0,0,0,.2) 2px, rgba(0,0,0,.2) 3px, transparent 3px, transparent 5px, rgba(0,0,0,.2) 5px)
+    // repeating-linear-gradient(        transparent, transparent 50px, rgba(0,0,0,.4) 50px, rgba(0,0,0,.4) 53px, transparent 53px, transparent 63px, rgba(0,0,0,.4) 63px, rgba(0,0,0,.4) 66px, transparent 66px, transparent 116px, rgba(0,0,0,.5) 116px, rgba(0,0,0,.5) 166px, rgba(255,255,255,.2) 166px, rgba(255,255,255,.2) 169px, rgba(0,0,0,.5) 169px, rgba(0,0,0,.5) 179px, rgba(255,255,255,.2) 179px, rgba(255,255,255,.2) 182px, rgba(0,0,0,.5) 182px, rgba(0,0,0,.5) 232px, transparent 232px),
+    // repeating-linear-gradient(270deg, transparent, transparent 50px, rgba(0,0,0,.4) 50px, rgba(0,0,0,.4) 53px, transparent 53px, transparent 63px, rgba(0,0,0,.4) 63px, rgba(0,0,0,.4) 66px, transparent 66px, transparent 116px, rgba(0,0,0,.5) 116px, rgba(0,0,0,.5) 166px, rgba(255,255,255,.2) 166px, rgba(255,255,255,.2) 169px, rgba(0,0,0,.5) 169px, rgba(0,0,0,.5) 179px, rgba(255,255,255,.2) 179px, rgba(255,255,255,.2) 182px, rgba(0,0,0,.5) 182px, rgba(0,0,0,.5) 232px, transparent 232px),
+    // repeating-linear-gradient(125deg, transparent, transparent 2px, rgba(0,0,0,.2) 2px, rgba(0,0,0,.2) 3px, transparent 3px, transparent 5px, rgba(0,0,0,.2) 5px);
+
+=madras
+    :background-color   hsl( 34, 53%, 82% )
+    $a1: hsl( 197, 62%, 11% )
+    $a: hsla( 197, 62%, 11%, .5 )
+    $a0: hsla( 197, 62%, 11%, 0 )
+    $b1: hsl( 5, 53%, 63% )
+    $b: hsla( 5, 53%, 63%, 0 )
+    $b5: hsla( 5, 53%, 63%, .5 )
+    $c1: hsl( 35, 91%, 65% )
+    $c: hsla( 35, 91%, 65%, 0.5 )
+    $c0: hsla( 35, 91%, 65%, 0 )
+    $stops: $tr 5px, $a 10px, $tr 35px, $b5 40px, $a 50px, $tr 60px, $b5 70px, $c 80px, $tr 90px, $b5 110px, $tr 120px, $a 140px
+    +background-image( sharp( true, 45deg, $stops... ), sharp( true, 135deg, $stops... ))
+
+=argyle
+    :background-color   #6d695c
+    $wh: rgba( white, .1 )
+    $bl: rgba( black, .1 )
+    $stops: $wh 1px, $tr 60px
+    $stops2: $bl 25%, $tr 75%, $bl 100%
+    +background-image( sharp( true, 120deg, $stops... ), sharp( true, 60deg, $stops... ), sharp( false, 60deg, $stops2... ), sharp( false, 120deg, $stops2... ))
+    +background-size( 70px 120px )
+    :background-repeat no-repeat
+
+=aline
+    $black: black
+    $white: white
+    $gold: gold
+    :background-color   $black
+    $vShadow: 5.5%
+    $vStrip: 23%
+    $vSep: 8%
+    +background-image( sharp( false, 135deg, $white 8%, $black 13.5%, $tr 100% ), sharp( false, 45deg, $tr 75%, $black 77%, $gold 83%, $black 85%, $tr 100% ), sharp( false, -45deg, $tr ( 50% - $vSep / 2 - $vStrip - $vShadow ) / 2, $black ( 50% - $vSep / 2 - $vStrip ) / 2, $white ( 50% - $vSep / 2 ) / 2, $black ( 50% + $vSep / 2 ) / 2, $white ( 50% + ( $vSep / 2 ) + $vStrip ) / 2, $black ( 50% + ( $vSep / 2 ) + $vStrip + $vShadow ) / 2, $tr 50% ), sharp( false, 45deg, $tr 20%, $black 22%, $gold 28%, $black 30%, $tr 100% ), sharp( false, -45deg, $tr ( 50% - $vSep / 2 - $vStrip - $vShadow ) / 2 + 50%, $black ( 50% - $vSep / 2 - $vStrip ) / 2 + 50%, $white ( 50% - $vSep / 2 ) / 2 + 50%, $black ( 50% + $vSep / 2 ) / 2 + 50%, $white ( 50% + ( $vSep / 2 ) + $vStrip ) / 2 + 50%, $black ( 50% + ( $vSep / 2 ) + $vStrip + $vShadow ) / 2 + 50%, $tr 100% ))
+    // +background-image( sharp( false, 135deg, $white 8%, $black 13.5%, $tr 100% ), sharp( false, 45deg, $tr 75%, $black 77%, $gold 83%, $black 85%, $tr 100% ), sharp( false, 45deg, $tr 70%, $black 72%, $gold 78%, $black 80%, $tr 100% ), sharp( false, -45deg, $tr ( 50% - $vSep / 2 - $vStrip - $vShadow ) / 2, $black ( 50% - $vSep / 2 - $vStrip ) / 2, $white ( 50% - $vSep / 2 ) / 2, $black ( 50% + $vSep / 2 ) / 2, $white ( 50% + ( $vSep / 2 ) + $vStrip ) / 2, $black ( 50% + ( $vSep / 2 ) + $vStrip + $vShadow ) / 2, $tr 50% ), sharp( false, 45deg, $tr 20%, $black 22%, $gold 28%, $black 30%, $tr 100% ), sharp( false, -45deg, $tr ( 50% - $vSep / 2 - $vStrip - $vShadow ) / 2 + 50%, $black ( 50% - $vSep / 2 - $vStrip ) / 2 + 50%, $white ( 50% - $vSep / 2 ) / 2 + 50%, $black ( 50% + $vSep / 2 ) / 2 + 50%, $white ( 50% + ( $vSep / 2 ) + $vStrip ) / 2 + 50%, $black ( 50% + ( $vSep / 2 ) + $vStrip + $vShadow ) / 2 + 50%, $tr 100% ))
+    // sharp( false, 0deg, $tr 61.5%, $white 73%, $black 77%, $white 88.5%, $tr 100% ))
+    +background-size( 160px 160px )
+    :background-position     82px 17px, 0px 17px, 0% 0%, 0% 0%, 0% 0%
+    :background-repeat  norepeat
