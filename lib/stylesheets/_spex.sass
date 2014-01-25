@@ -110,7 +110,12 @@ $transparent: rgba( #fff, 0 )
 
         $gradient: join( $gradient, $dump, comma )
 
-    @if $repeating
+    @if $repeating == 'radial'
+        @if $angle
+            @return repeating-radial-gradient( $gradient... )
+        @else
+            @return radial-gradient( $gradient... )
+    @else if $repeating
         @return repeating-linear-gradient( $angle, $gradient... )
     @else
         @return linear-gradient( $angle, $gradient... )
@@ -173,3 +178,23 @@ $tr: transparent
     $stops: $color 50%, $tr 100%
     +background-image( sharp( false, 90deg, $stops... ), sharp( false, 0deg, $stops... ))
     +background-size( $size $size )
+
+@function half-trad( $opacity, $size, $color: white )
+    @return repeating-radial-gradient( rgba( $color, $opacity ), rgba( $color, $opacity ) $size/2, $tr $size/2, $tr $size )
+@function half-tr( $opacity, $color: white, $angle: 90deg )
+    @return linear-gradient( $angle, rgba( $color, $opacity ) 50%, $tr 50% )
+=cicada( $color: #026873, $radial: false )
+    :background
+        :color          $color
+        // :position       center
+    $angle: 90deg
+    $top: white
+    @if $radial
+        +background-image( half-trad( .07, 13px ), half-trad( .13, 29px ), half-trad( .19, 53px ))
+    @else
+        +background-image( half-tr( .07 ), half-tr( .13 ), half-tr( .17 ), half-tr( .19 ))
+        +background-size( 13px, 29px, 37px, 53px )
+=helvetica
+    :font
+        :family  "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+        :weight  300
