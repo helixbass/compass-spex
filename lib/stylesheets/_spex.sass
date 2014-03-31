@@ -78,6 +78,8 @@
         visibility:             hidden
         font-size:              0
     +has-layout
+=fontSquirrel( $family, $basename )
+    +font-face( $family, font-files( "#{ $basename }-webfont.woff", "#{ $basename }-webfont.ttf", "#{ $basename }-webfont.svg##{ $family }" ), "#{ $basename }-webfont.eot" )
 
 =placeholder
     &::-webkit-input-placeholder
